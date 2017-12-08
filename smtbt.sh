@@ -26,6 +26,7 @@ do
 				echo "-h, --help                Show this menu."
 				echo "-d, --device=DEVICEID     Changes the Device Stressed."
 				echo "-b, --battery=TARGET      Changes the Battery Threshold Before Killing the Program."
+				echo "--list-devices            Lists All Currently Available Devices"
 				echo "--debug                   Toggles The Display of Debug Information."
 				exit 0
 				;;
@@ -61,6 +62,11 @@ do
 				;;
 			--debug)
 				export debugstatus=1
+				shift
+				;;
+			--list-devices)
+				./gdev.sh
+				exit 1
 				shift
 				;;
 			*)
