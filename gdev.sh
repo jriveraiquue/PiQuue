@@ -30,5 +30,5 @@ done
 
 #Begin Main Logic
 echo "[INFO] Gathering List of Currently Paired Devices From Smartthings..."
-curl -s -H "Authorization: Bearer eb4dde41-c09f-4fa9-a1c6-7e3c8177daef" -X GET "https://graph-na04-useast2.api.smartthings.com:443/api/smartapps/installations/beac5852-0ee5-4751-a162-3b5e1ace6931/devices/" | grep -Po '"(name|id|battery|deviceType)":.*?[^\\]",' | tr -d '"' | sed -r 's/(name)/\n\1/g'
+curl -s -H "Authorization: Bearer eb4dde41-c09f-4fa9-a1c6-7e3c8177daef" -X GET "https://graph-na04-useast2.api.smartthings.com:443/api/smartapps/installations/beac5852-0ee5-4751-a162-3b5e1ace6931/devices/" | grep -Po '"(name|id)":.*?[^\\]",' | tr -d '"' | awk '!seen[$0]++' | sed -r 's/(name)/\n\1/g'
 echo " "
