@@ -12,6 +12,7 @@ x=1
 currentbat=0
 keeprunning=1
 debugstatus=0
+statetoggle=0
 
 #Test For Arguments Before Executing Main Logic
 while test $# -gt 0
