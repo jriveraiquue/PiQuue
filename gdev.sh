@@ -9,7 +9,7 @@
 #Set Global Vars
 package="gdev"
 filtername=0
-
+filterid=0
 while test $# -gt 0
 do
 	case "$1" in
