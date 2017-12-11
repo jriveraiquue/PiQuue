@@ -62,7 +62,7 @@ do
 				shift
 				;;
 			--toggle-state)
-				statetoggle=1
+				export statetoggle=1
 				shift
 				;;
 			--debug)
