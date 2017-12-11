@@ -26,8 +26,9 @@ do
 				echo "-h, --help                Show this menu."
 				echo "-d, --device=DEVICEID     Changes the Device Stressed."
 				echo "-b, --battery=TARGET      Changes the Battery Threshold Before Killing the Program."
-				echo "--list-devices            Lists All Currently Available Devices"
-				echo "--debug                   Toggles The Display of Debug Information."
+				echo "--list-devices            Lists All Currently Available Devices."
+				echo "--toggle-state            Toggle the State of the Selected Device, Then Terminate."
+				echo "--debug                   Toggles the Display of Debug Information."
 				exit 0
 				;;
 			-d)
@@ -60,6 +61,10 @@ do
 				export batterythreshold=`echo $1 | sed -e 's/^[^=]*=//g'`
 				shift
 				;;
+			--toggle-state)
+				statetoggle=1
+				shift
+				;;
 			--debug)
 				export debugstatus=1
 				shift
@@ -75,16 +80,28 @@ do
 	esac
 done
 
-#Clear the Screen
-clear
 
 #Make Sure Required Variables Exist
 if [[ ${device+1} ]]
 then
+	if echo "$device" | grep "-"; then echo "working"; else device="$(./gdev.sh | grep -A 1 "$device" | grep id | tr -d ',')";device=${device:3}; fi
 	echo "[INFO] Performing Battery Test on Device: $device"
 else
 	echo "[ERROR] Missing DeviceID, use the -h or --help Argument for Help."
 	exit 2
+fi
+
+if [ $debugstatus -eq 1 ]
+then
+	echo "[INFO] Debugging is Enabled Debug Information Will be Prefixed With [DEBUG]"
+fi
+
+#Check if toggle-state Flag was Intitiated
+if [ $statetoggle -eq 1 ]
+then
+	echo "[INFO] Toggling Lock State per User Request"
+	curl -H "Authorization: Bearer eb4dde41-c09f-4fa9-a1c6-7e3c8177daef" -X GET "https://graph-na04-useast2.api.smartthings.com:443/api/smartapps/installations/beac5852-0ee5-4751-a162-3b5e1ace6931/devices/$device/toggle"
+	exit 0
 fi
 
 if [[ ${batterythreshold+1} ]]
@@ -95,10 +112,7 @@ else
 	exit 2
 fi
 
-if [[ ${debugstatus+1} ]]
-then
-	echo "[INFO] Debugging is Enabled Debug Information Will be Prefixed With [DEBUG]"
-fi
+
 
 # Divide Output for Easier Viewing
 echo "==============================="
@@ -148,5 +162,4 @@ do
 
 	#Divide Output for Easier Viewing
 	echo "==============================="
-
 done
