@@ -51,7 +51,7 @@ do
 				shift
 				if test $# -gt 0;
 				then
-					export batterythreshold=$1
+					export batterythreshold=$1+10
 				else
 					echo "No Minimum Battery Threshold Specified"
 					exit 1
@@ -146,6 +146,7 @@ do
 	#Set Var currentbat Equal to Content of bat.txt Then Convert currentbat to an Int
 	currentbat="$(cat ./bat.txt)"
 	currentbatint=$(( ${currentbat#0} ))
+	currentbatint=$currentbatint
 	
 	#Debug Information Regarding Battery Satistics
 	if [ $debugstatus -eq 1 ]
