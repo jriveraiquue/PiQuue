@@ -147,7 +147,6 @@ do
 	currentbat="$(cat ./bat.txt)"
 	currentbatint=$(( ${currentbat#0} ))
 	currentbatint=$currentbatint
-	batterythreshold=$(( ${batterythreshold#0}+10 ))
 	#Debug Information Regarding Battery Satistics
 	if [ $debugstatus -eq 1 ]
 	then
@@ -157,7 +156,7 @@ do
 	#Perform Check on Battery, Testing if currentbatint is Less Than or Equal to the First Argument Passed.
 	if [ $currentbatint -le $batterythreshold ]
 	then
-		$x=$x+1
+		x=$(( $x+1 ))
 		echo "[INFO] Battery depleted to or below $batterythreshold% after $x toggle(s)"
 		keeprunning=0
 	fi
